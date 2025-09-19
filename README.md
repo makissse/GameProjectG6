@@ -1,6 +1,6 @@
 Hi! In this README file, I decided to give you an overview of how the inner workings of the game function. Of course, there are some drawbacks in certain parts of the code—for example, the section with the AI. That's why I’d really appreciate any feedback you might have. I made this file mainly to make it easier to adapt to the code I’ve written.
 
-
+'''
 Pong Game – Logic Explanation
 if (mode == MODE_MENU)
 {
@@ -11,7 +11,7 @@ if (mode == MODE_MENU)
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        mode = (menuOption == 0) ? MODE_PVP : MODE_PVAI;
+        mode = (menuOption == 0) ? MODE_PVP : MODE_PVAI;            
 
         scoreLeft = 0;
         scoreRight = 0;
@@ -23,7 +23,7 @@ if (mode == MODE_MENU)
         gameRunning = true;
     }
 }
-
+'''
 
 Logic:
 
@@ -33,6 +33,7 @@ Resets scores, ball position, ball velocity, and paddles when a mode is selected
 
 Switches the game to active state (gameRunning = true).
 
+'''
 // --- Player 1 movement ---
 if (IsKeyDown(KEY_W) && leftPaddle.y > 0) leftPaddle.y -= playerSpeed * delta;
 if (IsKeyDown(KEY_S) && leftPaddle.y + leftPaddle.height < screenHeight) leftPaddle.y += playerSpeed * delta;
@@ -49,7 +50,7 @@ else if (mode == MODE_PVAI)
     if (ballPos.y < paddleCenter && rightPaddle.y > 0) rightPaddle.y -= aiSpeed * delta;
     if (ballPos.y > paddleCenter && rightPaddle.y + rightPaddle.height < screenHeight) rightPaddle.y += aiSpeed * delta;
 }
-
+'''
 
 Logic:
 
@@ -65,6 +66,7 @@ PvAI: simple AI follows the ball’s Y position, moving paddle toward the ball c
 
 Delta time ensures movement is smooth regardless of FPS.
 
+'''
 // --- Ball movement ---
 ballPos.x += ballVel.x * delta;
 ballPos.y += ballVel.y * delta;
@@ -72,7 +74,7 @@ ballPos.y += ballVel.y * delta;
 // --- Bounce off top/bottom ---
 if (ballPos.y - ballRadius <= 0) { ballPos.y = ballRadius; ballVel.y *= -1; }
 if (ballPos.y + ballRadius >= screenHeight) { ballPos.y = screenHeight - ballRadius; ballVel.y *= -1; }
-
+'''
 
 Logic:
 
@@ -82,6 +84,7 @@ Checks top and bottom collisions and reflects the ball by inverting Y velocity.
 
 Keeps ball inside the screen.
 
+'''
 // --- Paddle collisions ---
 if (CheckCollisionCircleRec(ballPos, ballRadius, leftPaddle))
 {
@@ -93,7 +96,7 @@ if (CheckCollisionCircleRec(ballPos, ballRadius, rightPaddle))
     ballPos.x = rightPaddle.x - ballRadius;
     ballVel.x *= -1.05f;
 }
-
+'''
 
 Logic:
 
@@ -103,6 +106,7 @@ Reflects the ball horizontally (X velocity) and slightly increases speed for pro
 
 Ensures ball doesn’t stick inside the paddle.
 
+'''
 // --- Scoring ---
 if (ballPos.x - ballRadius <= 0 || ballPos.x + ballRadius >= screenWidth)
 {
@@ -120,7 +124,7 @@ if (ballPos.x - ballRadius <= 0 || ballPos.x + ballRadius >= screenWidth)
     ballVel.x = dirX * speed * cosf(rad);
     ballVel.y = speed * sinf(rad);
 }
-
+'''
 
 Logic:
 
@@ -134,6 +138,7 @@ Generates a random angle for the next ball launch to avoid repetitive straight s
 
 Ball moves toward the player who lost the point, with a vertical component determined by the random angle.
 
+'''
 // --- Drawing Game ---
 DrawRectangleRec(leftPaddle, RAYWHITE);
 DrawRectangleRec(rightPaddle, RAYWHITE);
@@ -143,7 +148,7 @@ DrawText(TextFormat("%i", scoreLeft), screenWidth / 4 - 20, 20, 40, RAYWHITE);
 DrawText(TextFormat("%i", scoreRight), 3 * screenWidth / 4 - 20, 20, 40, RAYWHITE);
 
 DrawFPS(10, 10);
-
+'''
 
 Logic:
 
